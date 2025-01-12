@@ -1,0 +1,5 @@
+*.PNG
+photo_dump/
+heics/
+*.pkl
+face_recognizer_env/

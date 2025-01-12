@@ -1,0 +1,10 @@
+1/8/2025
+- DeepFace (DF) is complaining that IMG_8680.png doesn't contain a face. It clearly does, but maybe the empty space is messing it up or maybe it's too small. Do I need to crop it? Will I need to do that for all of the photos in the DB? That makes me think this might not be well-suited for the task I need it to do. I should watch the YT playlist linked on the GH page to see if this library can do real time face detection
+
+1/9/2025
+- It looks like removing all of the non-face pics from the photo_dump greatly increased the capacity of DeepFace to perform facial recognition. I tested this on two images (IMG_8680 and IMG_8677). It's promising so now I need to get a bunch of pictures of people in different lighting conditions and see how well it performs. It'll also be good to see if DeepFace will work on files in folders
+
+1/11/2025
+- It seems like connecting my USB camera to my computer and getting WSL to acknowledge its presence is harder than I expected. This YT video is one of the best leads I have so far: https://www.youtube.com/watch?v=I2jOuLU4o8E
+- For fun I tried connecting the webcam to my computer and accessing it in my VM and that seems to be working (/dev/video0 and video1 exist which is promising). It might be worth it to switch my development efforts over to my VM or to develop on my host machine w/o WSL
+  - For the sake of posterity, I plugged in the webcam to the right-side USB port and I had to click on Devices-->USB-->VGA Camera in my VM tool    bar to attach the webcam
