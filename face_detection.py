@@ -1,17 +1,17 @@
 import face_recognition
 import cv2
 import pickle
-import pygame
+# import pygame
 
 # Initialize pygame for music
-pygame.mixer.init()
+# pygame.mixer.init()
 
 # Load the face encodings and names from the saved file
 with open('known_faces.pkl', 'rb') as f:
     known_face_encodings, known_face_names = pickle.load(f)
 
 # Initialize video capture (camera)
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 
 # NOTE: this setup is super important and webcam-dependent
@@ -25,12 +25,9 @@ while True:
     # Capture a frame from the video feed
     ret, frame = cap.read()
 
-    # Convert the image from BGR (OpenCV format) to RGB (face_recognition format)
-    rgb_frame = frame[:, :, ::-1]
-
     # Find all face locations and encodings in the current frame
-    face_locations = face_recognition.face_locations(rgb_frame)
-    face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
+    face_locations = face_recognition.face_locations(frame)
+    face_encodings = face_recognition.face_encodings(frame, face_locations)
 
     for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
         # Check if the face matches any known faces
@@ -42,8 +39,8 @@ while True:
             music_file = f"{friend_name}_theme.mp3"
 
             # Play the associated theme music
-            pygame.mixer.music.load(music_file)
-            pygame.mixer.music.play()
+            # pygame.mixer.music.load(music_file)
+            # pygame.mixer.music.play()
 
             # Display the name of the recognized friend
             cv2.putText(frame, f"Welcome, {friend_name}!", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
