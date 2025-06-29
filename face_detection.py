@@ -11,7 +11,7 @@ with open('known_faces.pkl', 'rb') as f:
     known_face_encodings, known_face_names = pickle.load(f)
 
 # Initialize video capture (camera)
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 
 # NOTE: this setup is super important and webcam-dependent
