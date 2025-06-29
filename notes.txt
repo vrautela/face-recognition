@@ -8,3 +8,11 @@
 - It seems like connecting my USB camera to my computer and getting WSL to acknowledge its presence is harder than I expected. This YT video is one of the best leads I have so far: https://www.youtube.com/watch?v=I2jOuLU4o8E
 - For fun I tried connecting the webcam to my computer and accessing it in my VM and that seems to be working (/dev/video0 and video1 exist which is promising). It might be worth it to switch my development efforts over to my VM or to develop on my host machine w/o WSL
   - For the sake of posterity, I plugged in the webcam to the right-side USB port and I had to click on Devices-->USB-->VGA Camera in my VM tool    bar to attach the webcam
+
+6/29/2025
+- It seems like the default WSL2 kernel that microsoft ships doesn't have the vhci_hcd kernel module which is something my USB camera needs to be able to attach to my Ubuntu instance. I'm going to try building a custom kernel (https://github.com/microsoft/WSL2-Linux-Kernel) partly for fun and partly because I'd really prefer to keep my dev efforts in WSL. But if I can't connect even after building a custom kernel I'll probably have to succumb and start using Windows.
+- Update: even before building a custom kernel I came across this GH issue (https://github.com/dorssel/usbipd-win/issues/1010) which has a recommended fix of just manually adding the vhci_hcd module to the linux kernel. That seems to have worked! (I assume this means that I had the module downloaded but it wasn't actually registered to the kernel or something?) I'm gonna test it out to see if I can actually use the camera now.
+- Key points from ChatGPT about my camera setup and WSL:
+  - Your camera supports MJPEG (Motion-JPEG) and YUYV (YUYV 4:2:2) formats with resolutions like 640x480, 1280x720, and more.
+  - The MJPEG format is typically better for video capture since it’s compressed and reduces CPU usage.
+  - This command worked for capturing a test image: ffmpeg -f v4l2 -pix_fmt mjpeg -s 640x480 -i /dev/video1 -vframes 1 test_image.jpg

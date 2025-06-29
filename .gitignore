@@ -2,4 +2,5 @@
 photo_dump/
 heics/
 *.pkl
-face_recognizer_env/
+.python-version
+__pycache__
