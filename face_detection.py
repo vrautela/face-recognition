@@ -1,16 +1,37 @@
 import face_recognition
 import cv2
 import pickle
+import pygame
+import threading
 import time
-# import pygame
 
 # Initialize pygame for music
-# pygame.mixer.init()
+pygame.mixer.init()
 
-RECENCY_THRESHOLD = 5 # number of seconds after which to allow repeat recognition of an individual 
+# number of seconds after which to allow repeat recognition of an individual 
+RECENCY_THRESHOLD = 10 
+
 
 def seen_too_recently(last_seen: dict[str, float], name: str) -> bool:
+    """Was the given person seen too recently to acknowledge them again?"""
     return name in last_seen and time.time() - last_seen[name] < RECENCY_THRESHOLD
+
+
+def audio_file_path(name: str) -> str:
+    """A helper function to return the path of a person's audio file"""
+    return f'walk_up_music/{name}.mp3'
+
+
+def play_music(name: str):
+    """Play a person's music"""
+    pygame.mixer.music.load(audio_file_path(name))
+    pygame.mixer.music.play()
+
+    # Wait until the music has finished playing
+    while pygame.mixer.music.get_busy():
+        time.sleep(0.1)
+
+    print(f"Finished playing music for {name}")
 
 
 def main():
@@ -30,18 +51,16 @@ def main():
 
     # dictionary storing person name and last time they were seen
     last_seen: dict[str] = dict()
-
+    # queue to keep track of whose walk up music to play
+    music_queue: list[str] = []
 
     while True:
-        # Capture a frame from the video feed
         ret, frame = cap.read()
 
-        # Find all face locations and encodings in the current frame
         face_locations = face_recognition.face_locations(frame)
         face_encodings = face_recognition.face_encodings(frame, face_locations)
 
         for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
-            # Check if the face matches any known faces
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
 
             if True in matches:
@@ -50,18 +69,17 @@ def main():
                 if not seen_too_recently(last_seen, friend_name):
                     last_seen[friend_name] = time.time()
                     cv2.putText(frame, f"Welcome, {friend_name}!", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                    music_file = f"{friend_name}_theme.mp3"
+                    if friend_name not in music_queue:
+                        music_queue.append(friend_name)
 
-                # Play the associated theme music
-                # pygame.mixer.music.load(music_file)
-                # pygame.mixer.music.play()
+        if music_queue and not pygame.mixer.music.get_busy():
+            current_person = music_queue.pop(0)
+            print(f"Playing music for {current_person}")
+            music_thread = threading.Thread(target=play_music, args=(current_person,))
+            music_thread.start()
 
-                # Display the name of the recognized friend
-
-        # Display the video frame
         cv2.imshow("Video", frame)
 
-        # Exit condition
         if cv2.waitKey(1) & 0xFF == ord('q'):  # Press 'q' to quit
             break
 
