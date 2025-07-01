@@ -1,5 +1,6 @@
 *.PNG
 photo_dump/
+walk_up_music/
 heics/
 *.pkl
 .python-version
