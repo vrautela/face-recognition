@@ -9,7 +9,7 @@ import time
 pygame.mixer.init()
 
 # number of seconds after which to allow repeat recognition of an individual 
-RECENCY_THRESHOLD = 10 
+RECENCY_THRESHOLD = 30 
 
 
 def seen_too_recently(last_seen: dict[str, float], name: str) -> bool:
@@ -35,12 +35,13 @@ def play_music(name: str):
 
 
 def main():
-    # Load the face encodings and names from the saved file
     with open('known_faces.pkl', 'rb') as f:
         known_face_encodings, known_face_names = pickle.load(f)
 
-    # Initialize video capture (camera)
     cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("Failed to open camera properly. Exiting now...")
+        exit()
 
     # NOTE: this setup is super important and webcam-dependent
     # Set the resolution (use one of the supported resolutions, e.g., 640x480)
