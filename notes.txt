@@ -18,5 +18,7 @@
   - This command worked for capturing a test image: ffmpeg -f v4l2 -pix_fmt mjpeg -s 640x480 -i /dev/video1 -vframes 1 test_image.jpg
 
 7/04/2025
-- Installing dlib on the Raspberry Pi 5 turned out to be much harder than expected. I had to follow 
+- Installing dlib on the Raspberry Pi 5 turned out to be much harder than expected. I had to install the dependencies in the Dockerfile from this link: https://gist.github.com/ageitgey/1ac8dbe8572f3f533df6269dab35df65
+  - Also it took like 15-20 minutes to install dlib
 - I also needed to install setuptools in order to be able to use the face_recognition library on RPi
+  - The error I was getting was that it was telling me to install the face_recognition_models library from Github even though I already had it downloaded

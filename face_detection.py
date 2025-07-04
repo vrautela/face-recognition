@@ -24,6 +24,7 @@ def audio_file_path(name: str) -> str:
 
 def play_music(name: str):
     """Play a person's music"""
+    # TODO: check if the audio file actually exists and if not, print out warning and don't play anything
     pygame.mixer.music.load(audio_file_path(name))
     pygame.mixer.music.play()
 

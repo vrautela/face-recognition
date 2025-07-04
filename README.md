@@ -14,3 +14,6 @@
 
 ## Installation notes:
 - You need to have CMake installed in order to install face_recognition 
+- This is the documentation for installing face_detection on Raspberry Pi (including required dependences): https://gist.github.com/ageitgey/1ac8dbe8572f3f533df6269dab35df65
+- I also had to install the required dependencies for opencv on Raspberry Pi: https://opencv.org/blog/raspberry-pi-with-opencv/
+
