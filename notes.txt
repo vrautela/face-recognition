@@ -16,3 +16,7 @@
   - Your camera supports MJPEG (Motion-JPEG) and YUYV (YUYV 4:2:2) formats with resolutions like 640x480, 1280x720, and more.
   - The MJPEG format is typically better for video capture since it’s compressed and reduces CPU usage.
   - This command worked for capturing a test image: ffmpeg -f v4l2 -pix_fmt mjpeg -s 640x480 -i /dev/video1 -vframes 1 test_image.jpg
+
+7/04/2025
+- Installing dlib on the Raspberry Pi 5 turned out to be much harder than expected. I had to follow 
+- I also needed to install setuptools in order to be able to use the face_recognition library on RPi
