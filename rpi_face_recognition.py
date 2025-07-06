@@ -1,3 +1,4 @@
+"""This module is not currently not used in this project."""
 #!/usr/bin/env python3
 
 import RPi.GPIO as GPIO
